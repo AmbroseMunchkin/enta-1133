@@ -1,10 +1,13 @@
-﻿namespace GD14_1133_Dice_Game_Alcaraz_Arlet
+﻿using GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts;
+
+namespace GD14_1133_Dice_Game_Alcaraz_Arlet
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            GameManager.ProgramStart();     //Here i am calling the game manager so the program can start
+
         }
     }
 }
