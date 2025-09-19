@@ -26,7 +26,7 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
         }
         public static void Outro()
         {
-            Console.WriteLine("Now that we rolled the dices, here is the explanation of how the arithmetic operators work:"); //Mostly adding this so its clear where the dice rolling ends and the explanation starts
+            Console.WriteLine("Now that we rolled the dice, here is the explanation of how the arithmetic operators work:"); //Mostly adding this so its clear where the dice rolling ends and the explanation starts
             Console.WriteLine("(+): Adds two values, for example 1 + 5 = 6)");
             Console.WriteLine("(-): Substracts one value from another, for example 7 - 4 = 3"); //From line 28 to line 31 its common operations that i didn't need to find the explanation
             Console.WriteLine("(/): Divides one value by another, for example 20 / 5 = 4)");
