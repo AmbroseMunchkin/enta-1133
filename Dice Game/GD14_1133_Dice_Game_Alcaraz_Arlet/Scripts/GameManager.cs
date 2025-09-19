@@ -14,17 +14,17 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
             RollOrDie();
             Outro();
         }
-        public static void Intro()
+        private static void Intro()
         {
             Console.WriteLine("Welcome to Dice Rolling! My name is Arlet Alcaraz and today is 18 of september 2025");
             Console.WriteLine("Let's roll some dice! May the odds be ever in your favor");
             Console.WriteLine(); //Adding this ones so it looks more clean in the console output
         }
-        public static void RollOrDie()
+        private static void RollOrDie()
         {
             DieRoller.Rolls(); //Here i call the dice rolling script
         }
-        public static void Outro()
+        private static void Outro()
         {
             Console.WriteLine("Now that we rolled the dice, here is the explanation of how the arithmetic operators work:"); //Mostly adding this so its clear where the dice rolling ends and the explanation starts
             Console.WriteLine("(+): Adds two values, for example 1 + 5 = 6)");
