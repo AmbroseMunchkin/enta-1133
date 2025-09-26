@@ -122,7 +122,7 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
                 PlayerStart();
             }
             Console.WriteLine();
-            Console.WriteLine("The score is: Player " + playerscore + " Computer: " + computerscore);
+            Console.WriteLine("The score is--> Player: " + playerscore + " Computer: " + computerscore);
         }
         public static void ComputerRolls() //It was easier for me to have the dice rolling for the player and the computer in different public voids
         {
@@ -236,7 +236,7 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
                 PlayerStart();                                                              //Used a lot of if and else, but it was the only way i could make it work
             }
             Console.WriteLine();
-            Console.WriteLine("The score is: Player " + playerscore + " Computer: " + computerscore);
+            Console.WriteLine("The score is--> Player: " + playerscore + " Computer: " + computerscore);
         } 
     }
 }
