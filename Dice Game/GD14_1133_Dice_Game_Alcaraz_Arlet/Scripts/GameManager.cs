@@ -26,6 +26,7 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
         }
         private static void Outro()
         {
+            Console.WriteLine("Now this was a lot of rolling! So many possibilities with so few dice.");
             Console.WriteLine();
             Console.WriteLine("Thanks for giving this a try! Have a wonderful day!");
         }
