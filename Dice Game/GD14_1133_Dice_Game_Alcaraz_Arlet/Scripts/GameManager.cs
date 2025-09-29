@@ -8,23 +8,35 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
 {
     internal class GameManager
     {
-        public static void ProgramStart()
+        Player player;
+        public void ProgramStart()
         {
+<<<<<<< Updated upstream
             Intro(); //Each one of this calls a process happening in this script
+=======
+            player = new Player(); //Decided to add this one first so it looks more clean
+            player.User();
+
+            Intro(); 
+>>>>>>> Stashed changes
             RollOrDie();
             Outro();
         }
-        private static void Intro()
+        private void Intro()
         {
             Console.WriteLine("Welcome to Dice Rolling! My name is Arlet Alcaraz and today is 18 of september 2025");
             Console.WriteLine("Let's roll some dice! May the odds be ever in your favor");
             Console.WriteLine(); //Adding this ones so it looks more clean in the console output
         }
-        private static void RollOrDie()
+        private void RollOrDie()
         {
+<<<<<<< Updated upstream
             DieRoller.Rolls(); //Here i call the dice rolling script
+=======
+            RandomTurn.Turn(player);
+>>>>>>> Stashed changes
         }
-        private static void Outro()
+        private void Outro()
         {
             Console.WriteLine("Now that we rolled the dice, here is the explanation of how the arithmetic operators work:"); //Mostly adding this so its clear where the dice rolling ends and the explanation starts
             Console.WriteLine("(+): Adds two values, for example 1 + 5 = 6)");
