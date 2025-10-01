@@ -10,7 +10,7 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
     internal class RandomTurn
     {
 
-        public static void Turn()
+        public void Turn()
         {
             Random random = new Random();
 
@@ -20,14 +20,20 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
             {
                 Console.WriteLine("You go first!"); //Wanted to use the player name but i dont know how to call the username from the player script
                 Console.WriteLine();
-                DieRoller.PlayerStart();
+                DieRoller dieRoller = new DieRoller();
+                dieRoller.PlayerStart();
+                DieRoller dieRoller2 = new DieRoller();
+                dieRoller2.ComputerRolls();
                 Console.WriteLine();
 
             }
             else
             {
                 Console.WriteLine("Computer goes first!");
-                DieRoller.ComputerRolls();
+                DieRoller dieRoller2 = new DieRoller();
+                dieRoller2.ComputerRolls();
+                DieRoller dieRoller = new DieRoller();
+                dieRoller.PlayerStart();
                 Console.WriteLine();
             }
         }

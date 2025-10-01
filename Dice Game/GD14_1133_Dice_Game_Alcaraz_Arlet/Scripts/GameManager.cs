@@ -8,23 +8,25 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
 {
     internal class GameManager
     {
-        public static void ProgramStart()
+        public void ProgramStart()
         {
-            Player.User(); //Decided to add this one first so it looks more clean
+            Player player = new Player();
+            player.User(); //Decided to add this one first so it looks more clean
             Intro();
             RollOrDie();
             Outro();
         }
-        private static void Intro()
+        private void Intro()
         {
             Console.WriteLine("Let's roll some dice! May the odds be ever in your favor");
             Console.WriteLine();
         }
-        private static void RollOrDie()
+        private void RollOrDie()
         {
-            RandomTurn.Turn();
+            RandomTurn randomTurn = new RandomTurn();
+            randomTurn.Turn();
         }
-        private static void Outro()
+        private void Outro()
         {
             Console.WriteLine("Now this was a lot of rolling! So many possibilities with so few dice.");
             Console.WriteLine();

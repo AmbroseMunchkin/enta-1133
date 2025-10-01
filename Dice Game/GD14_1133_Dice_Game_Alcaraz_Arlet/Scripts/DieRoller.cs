@@ -8,7 +8,7 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
 {
     internal class DieRoller
     {
-        public static void PlayerStart()
+        public void PlayerStart()
         {
             Random random = new Random();
             int die4 = random.Next(1, 5);
@@ -124,7 +124,7 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
             Console.WriteLine();
             Console.WriteLine("The score is--> Player: " + playerscore + " Computer: " + computerscore);
         }
-        public static void ComputerRolls() //It was easier for me to have the dice rolling for the player and the computer in different public voids
+        public void ComputerRolls() //It was easier for me to have the dice rolling for the player and the computer in different public voids
         {
             Random random = new Random();
             int die4 = random.Next(1, 5);
