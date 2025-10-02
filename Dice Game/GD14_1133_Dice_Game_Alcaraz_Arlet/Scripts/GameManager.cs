@@ -10,15 +10,20 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
     {
         public void ProgramStart()
         {
-            Player player = new Player();
-            player.User(); //Decided to add this one first so it looks more clean
             Intro();
+            Player player = new Player(); //Fixed how the intro is since it was rude to start by asking the player name
+            player.User();
+            Rules();     //Added the rules as its own private void since i will only call it once
             RollOrDie();
             Outro();
         }
         private void Intro()
         {
-            Console.WriteLine("Let's roll some dice! May the odds be ever in your favor");
+            Console.WriteLine("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-");
+            Console.WriteLine("Hello, hello hello! Uh, welcome to");
+            Console.WriteLine(" ___   ___   _     _         ___   ___       ___   _   ____ \r\n| |_) / / \\ | |   | |       / / \\ | |_)     | | \\ | | | |_  \r\n|_| \\ \\_\\_/ |_|__ |_|__     \\_\\_/ |_| \\     |_|_/ |_| |_|__ \r\n                                                            \r\n                                                            \r\n                                                            ");
+            Console.WriteLine("A game where your soul is at stake!");
+            Console.WriteLine("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-");
             Console.WriteLine();
         }
         private void RollOrDie()
@@ -28,9 +33,23 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
         }
         private void Outro()
         {
-            Console.WriteLine("Now this was a lot of rolling! So many possibilities with so few dice.");
             Console.WriteLine();
-            Console.WriteLine("Thanks for giving this a try! Have a wonderful day!");
+            Console.WriteLine("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-");
+            Console.WriteLine("Thank you for keeping me entertained dear wandering soul~");
+            Console.WriteLine("You fought for your soul with great bravery; you can keep it...");
+            Console.WriteLine("░        ░░░      ░░░       ░░░░░░░░░   ░░░  ░░░      ░░░  ░░░░  ░\r\n▒  ▒▒▒▒▒▒▒▒  ▒▒▒▒  ▒▒  ▒▒▒▒  ▒▒▒▒▒▒▒▒    ▒▒  ▒▒  ▒▒▒▒  ▒▒  ▒  ▒  ▒\r\n▓      ▓▓▓▓  ▓▓▓▓  ▓▓       ▓▓▓▓▓▓▓▓▓  ▓  ▓  ▓▓  ▓▓▓▓  ▓▓        ▓\r\n█  ████████  ████  ██  ███  █████████  ██    ██  ████  ██   ██   █\r\n█  █████████      ███  ████  ████████  ███   ███      ███  ████  █\r\n                                                                  ");
+            Console.WriteLine("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-");
+        }
+        private void Rules()
+        {
+            Console.WriteLine();
+            Console.WriteLine("You and I will have 7 dice at our disposal:");
+            Console.WriteLine("D4 / D6 / D8 / D10 / D12 / D20 / D100");
+            Console.WriteLine();
+            Console.WriteLine("Each round we will choose a die and roll that same die 3 times, adding the results of each roll, whoever gets the highest number wins a point, do know you and I can pick different die to use.");
+            Console.WriteLine("The turns will be determined at the start of the first round, setting the turns for all the rounds.");
+            Console.WriteLine("But! If the result is a tie the die will be rerolled.");
+            Console.WriteLine("Be aware that once a die is used it will disappear never to be seen again.");
         }
     }
 }
