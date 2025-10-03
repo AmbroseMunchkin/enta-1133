@@ -16,6 +16,10 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
             Rules();     //Added the rules as its own private void since i will only call it once
             RollOrDie();
             Outro();
+            Player playerVariableName = new Player();
+            playerVariableName.Initialize();
+            Player playerVariableName2 = new Player();
+            playerVariableName2.Initialize();
         }
         private void Intro()
         {

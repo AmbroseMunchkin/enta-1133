@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -8,14 +9,20 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
 {
     internal class DieRoller
     {
+        public int RollDice(int numFaces)
+        {
+            //roll random no between 1 and numFaces + 1
+            Random roll = new Random();
+            return roll.Next(1, numFaces + 1);
+        }
         public void PlayerStart()
         {
-            Random random = new Random();
-            int die4 = random.Next(1, 5);
-            int die6 = random.Next(1, 7);
-            int die8 = random.Next(1, 9);
-            int die12 = random.Next(1, 13);
-            int die20 = random.Next(1, 21);
+            Player human = new Player();
+            human.Initialize();
+            Player cpu = new Player();
+            cpu.Initialize();
+            human.availableDice.TryGetValue("D4", out int result);
+            human.availableDice.TryGetValue("D6", out result);
             int playertotal = 0;
             int computertotal = 0;
             int playerscore = 0;
@@ -26,7 +33,7 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
             Console.WriteLine();
             Console.WriteLine("Type your option");
             string choiceInput = Console.ReadLine();                        //ChoiceInput will determine what dice will be used 
-            if (choiceInput == "1")
+            if (choiceInput == "D4")
             {
                 Console.WriteLine();
                 Console.WriteLine("You choose a D4");
@@ -123,7 +130,9 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
             }
             Console.WriteLine();
             Console.WriteLine("The score is--> Player: " + playerscore + " Computer: " + computerscore);
-        }
+        } // condition ? true : false;
+        //currentPlayer == Arlet ? print("Arlet chose a d6") : print("You chose a d6")
+        //print($"{currentPlayer == Arlet ? "Arlet" : "You"} chose this)
         public void ComputerRolls() //It was easier for me to have the dice rolling for the player and the computer in different public voids
         {
             Random random = new Random();
