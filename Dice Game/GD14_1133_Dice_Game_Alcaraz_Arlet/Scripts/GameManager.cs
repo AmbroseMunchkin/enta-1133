@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,12 +13,19 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
         Player player = new Player();
         Player cpu = new Player();
         DieRoller roller = new DieRoller();
+        int playerscore = 0;
+        int cpuscore = 0;
+        
         public void ProgramStart()
         {
             cpu.username = "Arlet";
             Intro();
             player.User(); //Fixed how the intro is since it was rude to start by asking the player name
             Rules();     //Added the rules as its own private void since i will only call it once
+            player.Initialize();
+            cpu.Initialize();
+            DecideTurnOrder();
+            RoundLoop();
             Outro();
         }
         private void Intro()
@@ -48,7 +56,7 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
             Console.WriteLine("Each round we will choose a die and roll that same die 3 times, adding the results of each roll, \nwhoever gets the highest number wins a point, do know you and I can pick different die to use.");
             Console.WriteLine("The turns will be determined at the start of the first round, setting the turns for all the rounds.");
             Console.WriteLine("But! If the result is a tie the die will be rerolled.");
-            Console.WriteLine($"Be aware " + player.username + " that once a die is used it will disappear never to be seen again.");
+            Console.WriteLine($"Be aware " + player.username + " that once a die is used it will disappear never to be seen again.\n");
         }
 
         private void DecideTurnOrder()
@@ -75,7 +83,7 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
         {
             int numFaces = player.availableDice[die];
             int rollerResult = 0;
-            string singularResults = player.username + " grabs the D10 and rolls it 3 times, the results are:";
+            string singularResults = player.username + " grabs the " + die + " and rolls it 3 times, the results are:";
 
             for (int i = 0; i < 3; i++)
             {
@@ -89,36 +97,46 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
         }
         private void RoundLoop()
         {
-            while (true)
+            int cpuRollerResults = 0;
+            int playerRollerResult = 0;
+            while (turnOrder[0].availableDice.Count > 0)
             {
-                bool noDicesQuestionMark = false;
-                for (int i = 0;i < turnOrder.Count;i++)
-                {
-                    if (turnOrder[i].availableDice.Count == 0)
-                    {
-                        noDicesQuestionMark = true;
-                        break;
-                    }
-                }
-                if (noDicesQuestionMark == true)
-                {
-                    break;
-                }
-                for (int i = 0;i < turnOrder.Count;i++)
+                for (int i = 0; i < turnOrder.Count; i++)
                 {
                     Player player = turnOrder[i];
+                    int rollerResults;
                     string playerChoice;
                     if (player == cpu)
                     {
                         playerChoice = player.CPUChoice();
+                        rollerResults = TakingTurn(player, playerChoice);
+                        cpuRollerResults = rollerResults;
                     }
                     else
                     {
                         playerChoice = player.PlayerChoice();
+                        rollerResults = TakingTurn(player, playerChoice);
+                        playerRollerResult = rollerResults;
                     }
-                    int rollerResults = TakingTurn(player, playerChoice);
                 }
+                Console.WriteLine("The final sum is:");
+                Console.WriteLine(player.username + "--> " + playerRollerResult);
+                Console.WriteLine(cpu.username + "--> " + cpuRollerResults);
+                Console.WriteLine();
+                if (cpuRollerResults > playerRollerResult)
+                {
+                    Console.WriteLine(cpu.username + " wins a point!");
+                    cpuscore++;
+                }
+                else
+                {
+                    Console.WriteLine(player.username + " wins a point!");
+                    playerscore++;
+                }
+                Console.WriteLine("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-");
             }
+
+            Console.WriteLine("The score is: CPU: " + cpuscore + "PLAYER: " + playerscore);
         }
     }
 }

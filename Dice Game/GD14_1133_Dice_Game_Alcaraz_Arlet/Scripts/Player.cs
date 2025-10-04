@@ -51,7 +51,7 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
                 Console.WriteLine("What dice do you want to use?\n");
                 //ReadLine of the option
                 playerInput = Console.ReadLine();
-            } while (availableDice.TryGetValue(playerInput, out int choice));
+            } while (!availableDice.TryGetValue(playerInput, out int choice));
 
             //Return Choice
 
