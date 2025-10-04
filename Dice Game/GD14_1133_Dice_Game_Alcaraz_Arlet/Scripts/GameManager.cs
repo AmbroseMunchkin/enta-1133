@@ -29,7 +29,7 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
             Outro();
         }
         private void Intro()
-        {
+        { //This greats the player and shows the game name
             Console.WriteLine("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-");
             Console.WriteLine("Hello, hello hello! Uh, welcome to");
             Console.WriteLine(" ___   ___   _     _         ___   ___       ___   _   ____ \r\n| |_) / / \\ | |   | |       / / \\ | |_)     | | \\ | | | |_  \r\n|_| \\ \\_\\_/ |_|__ |_|__     \\_\\_/ |_| \\     |_|_/ |_| |_|__ \r\n                                                            \r\n                                                            \r\n                                                            ");
@@ -39,7 +39,7 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
         }
        
         private void Outro()
-        {
+        { //This is where we say goodbye to the player
             Console.WriteLine();
             Console.WriteLine("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-");
             Console.WriteLine("Thank you for keeping me entertained dear wandering soul~");
@@ -48,7 +48,7 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
             Console.WriteLine("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-");
         }
         private void Rules()
-        {
+        { //The rules of the game
             Console.WriteLine();
             Console.WriteLine("You and I will have 7 dice at our disposal:");
             Console.WriteLine("D4 / D6 / D8 / D10 / D12 / D20 / D100");
@@ -60,7 +60,7 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
         }
 
         private void DecideTurnOrder()
-        {
+        { //Here is where the turn is decided for the rest of the game
             Console.WriteLine("Let's decide who starts:\n");
 
             Random coinRandom = new Random();
@@ -79,7 +79,7 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
             }
             Console.WriteLine(turnOrder[0].username + " starts!");
         }
-        private int TakingTurn(Player player, string die)
+        private int TakingTurn(Player player, string die) //Here is where the magic happens with the rolles, the dieroller gets the result based on the player or cpu input
         {
             int numFaces = player.availableDice[die];
             int rollerResult = 0;
@@ -95,13 +95,13 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
             player.availableDice.Remove(die);
             return rollerResult;
         }
-        private void RoundLoop()
+        private void RoundLoop() //Tried to make it as clean as i could
         {
             int cpuRollerResults = 0;
             int playerRollerResult = 0;
             while (turnOrder[0].availableDice.Count > 0)
             {
-                for (int i = 0; i < turnOrder.Count; i++)
+                for (int i = 0; i < turnOrder.Count; i++)  //This only happens twice, so its first turn and second turn
                 {
                     Player player = turnOrder[i];
                     int rollerResults;
@@ -133,10 +133,21 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
                     Console.WriteLine(player.username + " wins a point!");
                     playerscore++;
                 }
-                Console.WriteLine("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-");
+                Console.WriteLine("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-\n");
             }
-
-            Console.WriteLine("The score is: CPU: " + cpuscore + "PLAYER: " + playerscore);
+            Console.WriteLine("And the winner is:\n");
+            if (cpuscore > playerscore)
+            {
+                Console.WriteLine(cpu.username + "!!!\n");
+            }
+            else
+            {
+                Console.WriteLine(player.username + "!!!\n");
+            }
+            Console.WriteLine("The final score is:\n");
+            Console.WriteLine(cpu.username + "--> " + cpuscore);
+            Console.WriteLine();
+            Console.WriteLine(player.username + "--> " + playerscore);
         }
     }
 }
