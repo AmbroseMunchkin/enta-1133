@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -8,27 +9,145 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
 {
     internal class GameManager
     {
-        public static void ProgramStart()
+        private List<Player> turnOrder = new List<Player>();  //Declared the players first so i can access it in every function
+        Player player = new Player();
+        Player cpu = new Player();
+        DieRoller roller = new DieRoller();
+        int playerscore = 0;
+        int cpuscore = 0;
+        
+        public void ProgramStart()
         {
-            Player.User(); //Decided to add this one first so it looks more clean
-            Intro(); 
-            RollOrDie();
+            cpu.username = "Arlet";
+            Intro();
+            player.User(); //Fixed how the intro is since it was rude to start by asking the player name
+            Rules();     //Added the rules as its own private void since i will only call it once
+            player.Initialize();
+            cpu.Initialize();
+            DecideTurnOrder();
+            RoundLoop();
             Outro();
         }
-        private static void Intro()
-        {
-            Console.WriteLine("Let's roll some dice! May the odds be ever in your favor");
-            Console.WriteLine(); 
-        }
-        private static void RollOrDie()
-        {
-            RandomTurn.Turn();
-        }
-        private static void Outro()
-        {
-            Console.WriteLine("Now this was a lot of rolling! So many possibilities with so few dice.");
+        private void Intro()
+        { //This greats the player and shows the game name
+            Console.WriteLine("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-");
+            Console.WriteLine("Hello, hello hello! Uh, welcome to");
+            Console.WriteLine(" ___   ___   _     _         ___   ___       ___   _   ____ \r\n| |_) / / \\ | |   | |       / / \\ | |_)     | | \\ | | | |_  \r\n|_| \\ \\_\\_/ |_|__ |_|__     \\_\\_/ |_| \\     |_|_/ |_| |_|__ \r\n                                                            \r\n                                                            \r\n                                                            ");
+            Console.WriteLine("A game where your soul is at stake!");
+            Console.WriteLine("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-");
             Console.WriteLine();
-            Console.WriteLine("Thanks for giving this a try! Have a wonderful day!");
+        }
+       
+        private void Outro()
+        { //This is where we say goodbye to the player
+            Console.WriteLine();
+            Console.WriteLine("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-");
+            Console.WriteLine("Thank you for keeping me entertained dear wandering soul~");
+            Console.WriteLine("You fought for your soul with great bravery; you can keep it...");
+            Console.WriteLine("░        ░░░      ░░░       ░░░░░░░░░   ░░░  ░░░      ░░░  ░░░░  ░\r\n▒  ▒▒▒▒▒▒▒▒  ▒▒▒▒  ▒▒  ▒▒▒▒  ▒▒▒▒▒▒▒▒    ▒▒  ▒▒  ▒▒▒▒  ▒▒  ▒  ▒  ▒\r\n▓      ▓▓▓▓  ▓▓▓▓  ▓▓       ▓▓▓▓▓▓▓▓▓  ▓  ▓  ▓▓  ▓▓▓▓  ▓▓        ▓\r\n█  ████████  ████  ██  ███  █████████  ██    ██  ████  ██   ██   █\r\n█  █████████      ███  ████  ████████  ███   ███      ███  ████  █\r\n                                                                  ");
+            Console.WriteLine("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-");
+        }
+        private void Rules()
+        { //The rules of the game
+            Console.WriteLine();
+            Console.WriteLine("You and I will have 7 dice at our disposal:");
+            Console.WriteLine("D4 / D6 / D8 / D10 / D12 / D20 / D100");
+            Console.WriteLine();
+            Console.WriteLine("Each round we will choose a die and roll that same die 3 times, adding the results of each roll, \nwhoever gets the highest number wins a point, do know you and I can pick different die to use.");
+            Console.WriteLine("The turns will be determined at the start of the first round, setting the turns for all the rounds.");
+            Console.WriteLine("But! If the result is a tie the die will be rerolled.");
+            Console.WriteLine($"Be aware " + player.username + " that once a die is used it will disappear never to be seen again.\n");
+        }
+
+        private void DecideTurnOrder()
+        { //Here is where the turn is decided for the rest of the game
+            Console.WriteLine("Let's decide who starts:\n");
+
+            Random coinRandom = new Random();
+            int coinResult = coinRandom.Next(0, 2);
+            if (coinResult == 0)
+            {
+                //Player starts
+                turnOrder.Add(player);
+                turnOrder.Add(cpu);
+            }
+            else
+            {
+                //Cpu starts
+                turnOrder.Add(cpu);
+                turnOrder.Add(player);
+            }
+            Console.WriteLine(turnOrder[0].username + " starts!");
+        }
+        private int TakingTurn(Player player, string die) //Here is where the magic happens with the rolles, the dieroller gets the result based on the player or cpu input
+        {
+            int numFaces = player.availableDice[die];
+            int rollerResult = 0;
+            string singularResults = player.username + " grabs the " + die + " and rolls it 3 times, the results are:";
+
+            for (int i = 0; i < 3; i++)
+            {
+                int thisRolle = roller.RollDice(numFaces);
+                rollerResult += thisRolle;
+                singularResults += " " + thisRolle + ",";
+            }
+            Console.WriteLine(singularResults);
+            player.availableDice.Remove(die);
+            return rollerResult;
+        }
+        private void RoundLoop() //Tried to make it as clean as i could
+        {
+            int cpuRollerResults = 0;
+            int playerRollerResult = 0;
+            while (turnOrder[0].availableDice.Count > 0)
+            {
+                for (int i = 0; i < turnOrder.Count; i++)  //This only happens twice, so its first turn and second turn
+                {
+                    Player player = turnOrder[i];
+                    int rollerResults;
+                    string playerChoice;
+                    if (player == cpu)
+                    {
+                        playerChoice = player.CPUChoice();
+                        rollerResults = TakingTurn(player, playerChoice);
+                        cpuRollerResults = rollerResults;
+                    }
+                    else
+                    {
+                        playerChoice = player.PlayerChoice();
+                        rollerResults = TakingTurn(player, playerChoice);
+                        playerRollerResult = rollerResults;
+                    }
+                }
+                Console.WriteLine("The final sum is:");
+                Console.WriteLine(player.username + "--> " + playerRollerResult);
+                Console.WriteLine(cpu.username + "--> " + cpuRollerResults);
+                Console.WriteLine();
+                if (cpuRollerResults > playerRollerResult)
+                {
+                    Console.WriteLine(cpu.username + " wins a point!");
+                    cpuscore++;
+                }
+                else
+                {
+                    Console.WriteLine(player.username + " wins a point!");
+                    playerscore++;
+                }
+                Console.WriteLine("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-\n");
+            }
+            Console.WriteLine("And the winner is:\n");
+            if (cpuscore > playerscore)
+            {
+                Console.WriteLine(cpu.username + "!!!\n");
+            }
+            else
+            {
+                Console.WriteLine(player.username + "!!!\n");
+            }
+            Console.WriteLine("The final score is:\n");
+            Console.WriteLine(cpu.username + "--> " + cpuscore);
+            Console.WriteLine();
+            Console.WriteLine(player.username + "--> " + playerscore);
         }
     }
 }
