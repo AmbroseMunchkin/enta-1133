@@ -8,15 +8,18 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
 {
     internal class Room
     {
-        public string NorthRoom, SouthRoom, WestRoom, EastRoom;
+        public Room? NorthRoom, SouthRoom, WestRoom, EastRoom;
         public void OnEnter()
         {
-            Console.WriteLine("You enter the room and find a chest in the middle, you open it and find:");
-
+            Console.WriteLine("You enter a new room");
         }
         public void OnExit()
         {
-
+            Console.WriteLine("You move to a different room");
+        }
+        public void Visited()
+        {
+            Console.WriteLine("You don't find anything new worth your time");
         }
     }
 }

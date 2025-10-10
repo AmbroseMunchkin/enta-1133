@@ -19,12 +19,12 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
             {
                 for (int j = 0; j < y; j++)
                 {
-                    //_map[i, j] = new Room();
+                    //The rooms get linked here
                     Room currentRoom = _map[j, i];
                     if (i > 0) currentRoom.NorthRoom = _map[j, i - 1];
-                    if (i < rows - 1) currentRoom.SouthRoom = _map[j, i - 1];
+                    if (i < 3 - 1) currentRoom.SouthRoom = _map[j, i - 1];
                     if (j > 0) currentRoom.WestRoom = _map[j - 1, i];
-                    if (j > rows - 1) currentRoom.EastRoom = _map[j, i - 1];
+                    if (j > 3 - 1) currentRoom.EastRoom = _map[j, i - 1];
                 }
             }
         }
