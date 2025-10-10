@@ -8,5 +8,10 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
 {
     internal class CombatRoom : Room
     {
+        GameManager game = new GameManager();
+        public void CombatStarts()
+        {
+            game.GameLoop();
+        }
     }
 }

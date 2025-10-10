@@ -8,10 +8,13 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
 {
     internal class Room
     {
+        Map _map = new Map();
         public Room? NorthRoom, SouthRoom, WestRoom, EastRoom;
         public void OnEnter()
         {
             Console.WriteLine("You enter a new room");
+            _map.GetRoom(currentRoom);
+            _map.SetRoom(x, y);
         }
         public void OnExit()
         {

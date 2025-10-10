@@ -9,7 +9,6 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
     internal class Map
     {
         private Room[,] _map;
-        private Room _treasureRoom = new Room();
 
         public void InitializeFlexible(int x, int y)
         {
@@ -28,6 +27,10 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
                 }
             }
         }
+        public Room StartRoom(int x , int y)
+        {
+            return _map[0, 0];
+        }
         public Room GetRoom(int x, int y)
         {
             return _map[x, y];
@@ -40,25 +43,74 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
             if (randomNum == 1)
             {
                 room = new TreasureRoom();
+                room.Search();
             }
             else
             {
                 room = new CombatRoom();
+                room.CombatStarts();
             }
             _map[x, y] = room;
         }
         public void MoveRooms(Room currentRoom)
         {
-            if (currentRoom.NorthRoom == null)
+            Console.WriteLine("Where do you want to go?\n");
+            Console.WriteLine("North, South, West or East?\n");
+            string roomSelect = Console.ReadLine();
+            if (roomSelect == "North")
             {
-                Console.WriteLine("You can't go up!");
+                if (currentRoom.NorthRoom == null)
+                {
+                    Console.WriteLine("You can't go up!");
+                }
+                else
+                {
+                    currentRoom.OnExit();
+                    currentRoom = currentRoom.NorthRoom;
+                }
+            }
+            else if (roomSelect == "South")
+            {
+                if (currentRoom.SouthRoom == null)
+                {
+                    Console.WriteLine("You can't go down!");
+                }
+                else
+                {
+                    currentRoom.OnExit();
+                    currentRoom = currentRoom.SouthRoom;
+                }
+            }
+            else if (roomSelect == "West")
+            {
+                if (currentRoom.WestRoom == null)
+                {
+                    Console.WriteLine("You can't go to the left!");
+                }
+                else
+                {
+                    currentRoom.OnExit();
+                    currentRoom = currentRoom.WestRoom;
+                }
+            }
+            else if (roomSelect == "East")
+            {
+                if (currentRoom.EastRoom == null)
+                {
+                    Console.WriteLine("You can't go to the right!");
+                }
+                else
+                {
+                    currentRoom.OnExit();
+                    currentRoom = currentRoom.EastRoom;
+                }
             }
             else
             {
-                currentRoom.OnExit();
-                currentRoom = currentRoom.NorthRoom;
+                Console.WriteLine("Thats not a valid option, please try again");
+                MoveRooms(currentRoom);
             }
-            currentRoom.OnEnter();
+                currentRoom.OnEnter();
         }
     }
 

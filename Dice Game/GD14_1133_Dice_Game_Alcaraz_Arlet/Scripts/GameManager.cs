@@ -15,25 +15,35 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
         DieRoller roller = new DieRoller();
         int playerscore = 0;
         int cpuscore = 0;
-        
+        DateOnly today = DateOnly.FromDateTime(DateTime.Now);
+        Map Map = new Map();
         public void ProgramStart()
         {
             cpu.username = "Arlet";
             Intro();
             player.User(); //Fixed how the intro is since it was rude to start by asking the player name
-            Rules();     //Added the rules as its own private void since i will only call it once
+            Rules();    //Added the rules as its own private void since i will only call it once
+            Map.InitializeFlexible(3,3);
+            Map.StartRoom(0,0);
+            CombatRoom _combat = new CombatRoom();
+            _combat.CombatStarts();
+            Outro();
+        }
+        public void GameLoop()
+        {
+            cpu.username = "Arlet";
             player.Initialize();
             cpu.Initialize();
             DecideTurnOrder();
             RoundLoop();
-            Outro();
         }
         private void Intro()
         { //This greats the player and shows the game name
             Console.WriteLine("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-");
             Console.WriteLine("Hello, hello hello! Uh, welcome to");
             Console.WriteLine(" ___   ___   _     _         ___   ___       ___   _   ____ \r\n| |_) / / \\ | |   | |       / / \\ | |_)     | | \\ | | | |_  \r\n|_| \\ \\_\\_/ |_|__ |_|__     \\_\\_/ |_| \\     |_|_/ |_| |_|__ \r\n                                                            \r\n                                                            \r\n                                                            ");
-            Console.WriteLine("A game where your soul is at stake!");
+            Console.WriteLine("A place where your soul is at stake!");
+            Console.WriteLine("Today is: " + today);
             Console.WriteLine("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-");
             Console.WriteLine();
         }
