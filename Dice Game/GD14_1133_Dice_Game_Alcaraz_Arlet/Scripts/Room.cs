@@ -15,8 +15,7 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
         public void OnEnter()
         {
             string decision = "";
-            Console.WriteLine("You enter a new room");
-            Console.WriteLine("What do you want to do?\n");
+            Console.WriteLine("You enter a new room, what do you want to do?\n");
             Console.WriteLine("1.-Search\n2.-Move to a different room\n");
             decision = Console.ReadLine();
             if (decision == "1")

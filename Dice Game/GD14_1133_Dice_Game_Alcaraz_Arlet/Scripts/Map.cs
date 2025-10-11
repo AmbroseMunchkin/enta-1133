@@ -30,7 +30,7 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
         }
         public Room StartRoom(int x , int y) //Here is where i make the player start location
         {
-            return _map[1, 1];
+            return _map[1, 1]; //Returns the middle room as the start
         }
         public Room GetRoom(int x, int y)
         {
@@ -39,7 +39,7 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
         public void SetRoom(int x, int y)
         {
             Room room;
-            Random rand = new Random();
+            Random rand = new Random(); //Does a random to decide if the room will have a combat or treasure
             int randomNum = rand.Next(0, 2);
             if (randomNum == 1)
             {
