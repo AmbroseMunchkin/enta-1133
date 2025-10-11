@@ -62,5 +62,15 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
             Random rand = new Random();
             return availableDice.Keys.ToArray()[rand.Next(0,availableDice.Count)]; //The array looks like: D4, D6, D8, the random will trow a string with the choice
         }
+        public void Inventory()
+        {
+            Initialize();
+            string inventory = username + " you have the following dice still in your inventory: ";
+            foreach (KeyValuePair<string, int> dice in availableDice)
+            {
+                inventory += " " + dice.Key + ",";
+            }
+            Console.WriteLine(inventory);
+        }
     }
 }

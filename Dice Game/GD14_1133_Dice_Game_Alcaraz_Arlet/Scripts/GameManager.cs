@@ -17,23 +17,24 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
         int cpuscore = 0;
         DateOnly today = DateOnly.FromDateTime(DateTime.Now);
         Map Map = new Map();
+        Room currentRoom;
         public void ProgramStart()
         {
             cpu.username = "Arlet";
             Intro();
             player.User(); //Fixed how the intro is since it was rude to start by asking the player name
-            Rules();    //Added the rules as its own private void since i will only call it once
-            Map.InitializeFlexible(3,3);
-            Map.StartRoom(0,0);
-            CombatRoom _combat = new CombatRoom();
-            _combat.CombatStarts();
-            Outro();
+            Map.InitializeFlexible(3,3); //Initialized the map and assigned rooms
+            currentRoom = Map.StartRoom(1, 1);
+            PlayerChoice();
+            //CombatRoom _combat = new CombatRoom();
+            //_combat.CombatStarts();
         }
         public void GameLoop()
         {
             cpu.username = "Arlet";
             player.Initialize();
-            cpu.Initialize();
+            cpu.Initialize();  //Moved the game loop on its own place
+            Rules();
             DecideTurnOrder();
             RoundLoop();
         }
@@ -158,6 +159,31 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
             Console.WriteLine(cpu.username + "--> " + cpuscore);
             Console.WriteLine();
             Console.WriteLine(player.username + "--> " + playerscore);
+        }
+        public void PlayerChoice()
+        {
+            Console.WriteLine("You are in" + currentRoom + ", what do you want to do now?\n"); //I give the player its options
+            Console.WriteLine("1.-Move\n2.-Check your inventory\n3.-Give up your soul to me\n4.-Fight for your soul");
+            string decision = Console.ReadLine();
+            if (decision == "1")
+            {
+                Map.MoveRooms(currentRoom);
+            }
+            else if (decision == "2")
+            {
+                player.Inventory(); //Here it prints the player inventory
+                Console.WriteLine();
+                PlayerChoice();
+            }
+            else if (decision == "3")
+            {
+                Outro(); //Ends the run
+            }
+            else if (decision == "4")
+            {
+                CombatRoom _combat = new CombatRoom();
+                _combat.CombatStarts();
+            }
         }
     }
 }

@@ -11,7 +11,7 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
         Player player = new Player();
         public void SearchRoom()
         {
-            Console.WriteLine("You see in the middle a chest, you open it and get a D1");
+            Console.WriteLine("You see in the middle a chest, you open it and get a D1"); //Player searches the room and gets the dice
             player.availableDice.Add("D1", 1);
         }
     }

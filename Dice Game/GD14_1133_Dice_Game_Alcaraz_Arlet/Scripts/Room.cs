@@ -10,11 +10,25 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
     {
         Map _map = new Map();
         public Room? NorthRoom, SouthRoom, WestRoom, EastRoom;
+        Room currentRoom;
+        GameManager manager = new GameManager();
         public void OnEnter()
         {
+            string decision = "";
             Console.WriteLine("You enter a new room");
-            _map.GetRoom(currentRoom);
-            _map.SetRoom(x, y);
+            Console.WriteLine("What do you want to do?\n");
+            Console.WriteLine("1.-Search\n2.-Move to a different room\n");
+            decision = Console.ReadLine();
+            if (decision == "1")
+            {
+                Console.WriteLine("You search the room and find nothing");
+                manager.PlayerChoice();
+
+            }
+            else if (decision == "2")
+            {
+                _map.MoveRooms(currentRoom);
+            }
         }
         public void OnExit()
         {

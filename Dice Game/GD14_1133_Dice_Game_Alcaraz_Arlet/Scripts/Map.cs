@@ -14,22 +14,23 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
         {
             _map = new Room[x, y];
 
-            for (int i = 0; i < x; i++)
+            for (int i = 0; i < x; i++) 
             {
                 for (int j = 0; j < y; j++)
                 {
+                    SetRoom(i, j); //Room gets selected and assigned
                     //The rooms get linked here
-                    Room currentRoom = _map[j, i];
-                    if (i > 0) currentRoom.NorthRoom = _map[j, i - 1];
-                    if (i < 3 - 1) currentRoom.SouthRoom = _map[j, i - 1];
-                    if (j > 0) currentRoom.WestRoom = _map[j - 1, i];
-                    if (j > 3 - 1) currentRoom.EastRoom = _map[j, i - 1];
+                    Room currentRoom = _map[i, j];
+                    if (j > 0) currentRoom.NorthRoom = _map[i, j - 1];       //Checks if there can be a north room
+                    if (j < i - 1) currentRoom.SouthRoom = _map [i, j + 1];   //Checks if there can be a south room 
+                    if (i > 0) currentRoom.WestRoom = _map[i - 1, j];       //Checks if there can be a west room
+                    if (i < j - 1) currentRoom.EastRoom = _map[i + 1, j];   //Checks if there can be an east room
                 }
             }
         }
-        public Room StartRoom(int x , int y)
+        public Room StartRoom(int x , int y) //Here is where i make the player start location
         {
-            return _map[0, 0];
+            return _map[1, 1];
         }
         public Room GetRoom(int x, int y)
         {
@@ -43,12 +44,10 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
             if (randomNum == 1)
             {
                 room = new TreasureRoom();
-                room.Search();
             }
             else
             {
                 room = new CombatRoom();
-                room.CombatStarts();
             }
             _map[x, y] = room;
         }
@@ -62,11 +61,13 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
                 if (currentRoom.NorthRoom == null)
                 {
                     Console.WriteLine("You can't go up!");
+                    MoveRooms(currentRoom);
                 }
                 else
                 {
                     currentRoom.OnExit();
                     currentRoom = currentRoom.NorthRoom;
+                    currentRoom.OnEnter();
                 }
             }
             else if (roomSelect == "South")
@@ -74,11 +75,13 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
                 if (currentRoom.SouthRoom == null)
                 {
                     Console.WriteLine("You can't go down!");
+                    MoveRooms(currentRoom);
                 }
                 else
                 {
                     currentRoom.OnExit();
                     currentRoom = currentRoom.SouthRoom;
+                    currentRoom.OnEnter();
                 }
             }
             else if (roomSelect == "West")
@@ -86,11 +89,13 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
                 if (currentRoom.WestRoom == null)
                 {
                     Console.WriteLine("You can't go to the left!");
+                    MoveRooms(currentRoom);
                 }
                 else
                 {
                     currentRoom.OnExit();
                     currentRoom = currentRoom.WestRoom;
+                    currentRoom.OnEnter();
                 }
             }
             else if (roomSelect == "East")
@@ -98,11 +103,13 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
                 if (currentRoom.EastRoom == null)
                 {
                     Console.WriteLine("You can't go to the right!");
+                    MoveRooms(currentRoom);
                 }
                 else
                 {
                     currentRoom.OnExit();
                     currentRoom = currentRoom.EastRoom;
+                    currentRoom.OnEnter();
                 }
             }
             else
@@ -110,7 +117,10 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
                 Console.WriteLine("Thats not a valid option, please try again");
                 MoveRooms(currentRoom);
             }
-                currentRoom.OnEnter();
+        }
+        public void Move()
+        {
+            Console.WriteLine("You try to move but fail");
         }
     }
 
