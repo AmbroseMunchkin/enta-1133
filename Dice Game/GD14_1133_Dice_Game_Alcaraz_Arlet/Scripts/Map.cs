@@ -20,9 +20,16 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
                 {
                     SetRoom(i, j); //Room gets selected and assigned
                     //The rooms get linked here
+                }
+            }
+            for (int i = 0; i < x; i++)
+            {
+                for (int j = 0; j < y; j++)
+                {
+                    //The rooms get linked here
                     Room currentRoom = _map[i, j];
                     if (j > 0) currentRoom.NorthRoom = _map[i, j - 1];       //Checks if there can be a north room
-                    if (j < i - 1) currentRoom.SouthRoom = _map [i, j + 1];   //Checks if there can be a south room 
+                    if (j < i - 1) currentRoom.SouthRoom = _map[i, j + 1];   //Checks if there can be a south room 
                     if (i > 0) currentRoom.WestRoom = _map[i - 1, j];       //Checks if there can be a west room
                     if (i < j - 1) currentRoom.EastRoom = _map[i + 1, j];   //Checks if there can be an east room
                 }

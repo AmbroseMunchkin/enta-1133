@@ -14,5 +14,9 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
             Console.WriteLine("You see in the middle a chest, you open it and get a D1"); //Player searches the room and gets the dice
             player.availableDice.Add("D1", 1);
         }
+        public override string GetNameRoom()
+        {
+            return "Treasure Room";
+        }
     }
 }

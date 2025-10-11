@@ -162,7 +162,7 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
         }
         public void PlayerChoice()
         {
-            Console.WriteLine("You are in" + currentRoom + ", what do you want to do now?\n"); //I give the player its options
+            Console.WriteLine("You are in " + currentRoom.GetNameRoom() + ", what do you want to do now?\n"); //I give the player its options
             Console.WriteLine("1.-Move\n2.-Check your inventory\n3.-Give up your soul to me\n4.-Fight for your soul");
             string decision = Console.ReadLine();
             if (decision == "1")

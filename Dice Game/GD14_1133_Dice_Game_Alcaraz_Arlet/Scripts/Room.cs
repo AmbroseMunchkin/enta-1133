@@ -37,5 +37,10 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
         {
             Console.WriteLine("You don't find anything new worth your time");
         }
+        public virtual string GetNameRoom()
+        {
+            
+            return "UnknownRoom";
+        }
     }
 }

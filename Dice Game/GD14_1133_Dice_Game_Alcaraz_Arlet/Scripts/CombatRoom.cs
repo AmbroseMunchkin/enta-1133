@@ -15,5 +15,9 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
             Console.WriteLine("You see a monster in front of you, he stares at your soul before attacking you!\n Combat starts!\n"); //Here is where the game starts again
             game.GameLoop();
         }
+        public override string GetNameRoom()
+        {
+            return "Combat Room";
+        }
     }
 }
