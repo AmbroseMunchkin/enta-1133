@@ -9,11 +9,30 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
 {
     internal class TreasureRoom : Room
     {
-
+        Player player = new Player();
         internal override void SearchRoom()
         {
-            Console.WriteLine("You see in the middle a chest, you open it and get a D1"); //Player searches the room and gets the dice
-            //player.availableDice.Add("D1", 1);
+            Console.WriteLine("You see in the middle a chest, you open it and get:\n"); //Player searches the room and gets an item
+            Random chestSpin = new Random();
+            int chestResult = chestSpin.Next(0, 4);
+            switch (chestResult)
+            {
+                case 1:
+                    player.availableItems.Add("Small potion (D4)", 4);
+                    Console.WriteLine("A small potion (D4)!!!");
+                    break;
+                case 2:
+                    player.availableItems.Add("Normal potion (D6)", 6);
+                    Console.WriteLine("A normal potion (D6)!!!");
+                    break;
+                case 3:
+                    player.availableItems.Add("Large potion (D8)", 8);
+                    Console.WriteLine("A large potion (D8)!!!");
+                    break;
+                default:
+                    Console.WriteLine("You find the chest empty.\n");
+                    break;
+            }
             // TODO Inventory code
         }
         internal override string GetNameRoom()

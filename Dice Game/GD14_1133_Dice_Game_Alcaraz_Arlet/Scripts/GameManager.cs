@@ -13,10 +13,7 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
 
         private Player player = new Player();
 
-        Player cpu = new Player();
         DieRoller roller = new DieRoller();
-        int playerscore = 0;
-        int cpuscore = 0;
         DateOnly today = DateOnly.FromDateTime(DateTime.Now);
        
         private Map Map = new Map();
@@ -37,10 +34,10 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
             Intro();
             // Get Player Name
             player.User(); //Fixed how the intro is since it was rude to start by asking the player name
-
+            GameExplanation();
             // TODO Ask if ready to play * slightly different message than "play again"
             // TODO put into a function
-            Console.WriteLine("Do you want to wander the world? Input \"yes\" to continue");
+            Console.WriteLine("Do you want to wander the world? Type \"yes\" to continue");
             gameIsRunning = Console.ReadLine() == "yes";
 
             // * GameLoop begins * * Ending on player reaching 0 hp || surrender || win condition
@@ -136,41 +133,18 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
             Console.WriteLine("░        ░░░      ░░░       ░░░░░░░░░   ░░░  ░░░      ░░░  ░░░░  ░\r\n▒  ▒▒▒▒▒▒▒▒  ▒▒▒▒  ▒▒  ▒▒▒▒  ▒▒▒▒▒▒▒▒    ▒▒  ▒▒  ▒▒▒▒  ▒▒  ▒  ▒  ▒\r\n▓      ▓▓▓▓  ▓▓▓▓  ▓▓       ▓▓▓▓▓▓▓▓▓  ▓  ▓  ▓▓  ▓▓▓▓  ▓▓        ▓\r\n█  ████████  ████  ██  ███  █████████  ██    ██  ████  ██   ██   █\r\n█  █████████      ███  ████  ████████  ███   ███      ███  ████  █\r\n                                                                  ");
             Console.WriteLine("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-");
         }
-        private void Rules()
+        private void GameExplanation()
         { //The rules of the game
             Console.WriteLine();
-            Console.WriteLine("You and I will have 7 dice at our disposal:");
-            Console.WriteLine("D4 / D6 / D8 / D10 / D12 / D20 / D100");
-            Console.WriteLine();
-            Console.WriteLine("Each round we will choose a die and roll that same die 3 times, adding the results of each roll, \nwhoever gets the highest number wins a point, do know you and I can pick different die to use.");
-            Console.WriteLine("The turns will be determined at the start of the first round, setting the turns for all the rounds.");
-            Console.WriteLine("But! If the result is a tie the die will be rerolled.");
-            Console.WriteLine($"Be aware " + player.username + " that once a die is used it will disappear never to be seen again.\n");
+            Console.WriteLine("You can travel this 3x3 dungeon full of treasure chests!\nBut be careful, there's eyes watching all your movements...\n");
+            Console.WriteLine("You will start with a sword and a maze, but you can find potion in the chests, those will be helpful~\n");
+            Console.WriteLine($"Be aware " + player.username + " that once a potion is used it will disappear never to be seen again.\n");
         }
 
-        private void DecideTurnOrder()
-        { //Here is where the turn is decided for the rest of the game
-            Console.WriteLine("Let's decide who starts:\n");
-
-            Random coinRandom = new Random();
-            int coinResult = coinRandom.Next(0, 2);
-            if (coinResult == 0)
-            {
-                //Player starts
-                turnOrder.Add(player);
-                turnOrder.Add(cpu);
-            }
-            else
-            {
-                //Cpu starts
-                turnOrder.Add(cpu);
-                turnOrder.Add(player);
-            }
-            Console.WriteLine(turnOrder[0].username + " starts!");
-        }
+        
         private int TakingTurn(Player player, string die) //Here is where the magic happens with the rolles, the dieroller gets the result based on the player or cpu input
         {
-            int numFaces = player.availableDice[die];
+            int numFaces = player.availableItems[die];
             int rollerResult = 0;
             string singularResults = player.username + " grabs the " + die + " and rolls it 3 times, the results are:";
 
@@ -181,63 +155,63 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
                 singularResults += " " + thisRolle + ",";
             }
             Console.WriteLine(singularResults);
-            player.availableDice.Remove(die);
+            player.availableItems.Remove(die);
             return rollerResult;
         }
-        private void RoundLoop() //Tried to make it as clean as i could
-        {
-            int cpuRollerResults = 0;
-            int playerRollerResult = 0;
-            while (turnOrder[0].availableDice.Count > 0)
-            {
-                for (int i = 0; i < turnOrder.Count; i++)  //This only happens twice, so its first turn and second turn
-                {
-                    Player player = turnOrder[i];
-                    int rollerResults;
-                    string playerChoice;
-                    if (player == cpu)
-                    {
-                        playerChoice = player.CPUChoice();
-                        rollerResults = TakingTurn(player, playerChoice);
-                        cpuRollerResults = rollerResults;
-                    }
-                    else
-                    {
-                        playerChoice = player.PlayerChoice();
-                        rollerResults = TakingTurn(player, playerChoice);
-                        playerRollerResult = rollerResults;
-                    }
-                }
-                Console.WriteLine("The final sum is:");
-                Console.WriteLine(player.username + "--> " + playerRollerResult);
-                Console.WriteLine(cpu.username + "--> " + cpuRollerResults);
-                Console.WriteLine();
-                if (cpuRollerResults > playerRollerResult)
-                {
-                    Console.WriteLine(cpu.username + " wins a point!");
-                    cpuscore++;
-                }
-                else
-                {
-                    Console.WriteLine(player.username + " wins a point!");
-                    playerscore++;
-                }
-                Console.WriteLine("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-\n");
-            }
-            Console.WriteLine("And the winner is:\n");
-            if (cpuscore > playerscore)
-            {
-                Console.WriteLine(cpu.username + "!!!\n");
-            }
-            else
-            {
-                Console.WriteLine(player.username + "!!!\n");
-            }
-            Console.WriteLine("The final score is:\n");
-            Console.WriteLine(cpu.username + "--> " + cpuscore);
-            Console.WriteLine();
-            Console.WriteLine(player.username + "--> " + playerscore);
-        }
+        //private void RoundLoop() //Tried to make it as clean as i could
+        //{
+        //    int cpuRollerResults = 0;
+        //    int playerRollerResult = 0;
+        //    while (turnOrder[0].availableItems.Count > 0)
+        //    {
+        //        for (int i = 0; i < turnOrder.Count; i++)  //This only happens twice, so its first turn and second turn
+        //        {
+        //            Player player = turnOrder[i];
+        //            int rollerResults;
+        //            string playerChoice;
+        //            if (player == cpu)
+        //            {
+        //                playerChoice = player.CPUChoice();
+        //                rollerResults = TakingTurn(player, playerChoice);
+        //                cpuRollerResults = rollerResults;
+        //            }
+        //            else
+        //            {
+        //                playerChoice = player.PlayerChoice();
+        //                rollerResults = TakingTurn(player, playerChoice);
+        //                playerRollerResult = rollerResults;
+        //            }
+        //        }
+        //        Console.WriteLine("The final sum is:");
+        //        Console.WriteLine(player.username + "--> " + playerRollerResult);
+        //        Console.WriteLine(cpu.username + "--> " + cpuRollerResults);
+        //        Console.WriteLine();
+        //        if (cpuRollerResults > playerRollerResult)
+        //        {
+        //            Console.WriteLine(cpu.username + " wins a point!");
+        //            cpuscore++;
+        //        }
+        //        else
+        //        {
+        //            Console.WriteLine(player.username + " wins a point!");
+        //            playerscore++;
+        //        }
+        //        Console.WriteLine("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-\n");
+        //    }
+        //    Console.WriteLine("And the winner is:\n");
+        //    if (cpuscore > playerscore)
+        //    {
+        //        Console.WriteLine(cpu.username + "!!!\n");
+        //    }
+        //    else
+        //    {
+        //        Console.WriteLine(player.username + "!!!\n");
+        //    }
+        //    Console.WriteLine("The final score is:\n");
+        //    Console.WriteLine(cpu.username + "--> " + cpuscore);
+        //    Console.WriteLine();
+        //    Console.WriteLine(player.username + "--> " + playerscore);
+        //}
 
         public string GetPlayerChoiceForCurrentStep()
         {
@@ -282,13 +256,6 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
                         playerCurrentRoom.SearchRoom();
                         break;
                     }
-                // TEST COMBAT
-                //case "5":
-                //    {
-                //        CombatRoom _combat = new CombatRoom();
-                //        _combat.CombatStarts();
-                //        break;
-                //    }
                 default:
                     Console.WriteLine("I couldn't resolve the input of " + decision);
                     break;
