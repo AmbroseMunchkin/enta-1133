@@ -10,6 +10,8 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
     {
         private Room[,] _map;
 
+        public int NumberOfRooms => _map.Length;
+
         public void InitializeFlexible(int x, int y)
         {
             _map = new Room[x, y];
@@ -58,73 +60,159 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
             }
             _map[x, y] = room;
         }
-        public void MoveRooms(Room currentRoom)
+
+        //public void MoveRooms(Room currentRoom)
+        //{
+        //    Console.WriteLine("Where do you want to go?\n");
+        //    Console.WriteLine("North, South, West or East?\n");
+        //    string roomSelect = Console.ReadLine();
+        //    switch (roomSelect)
+        //    {
+        //        case "North":
+        //            if (currentRoom.NorthRoom == null)
+        //            {
+        //                Console.WriteLine("You can't go up!");
+        //                MoveRooms(currentRoom);
+        //            }
+        //            else
+        //            {
+        //                currentRoom.OnExit();
+        //                currentRoom = currentRoom.NorthRoom;
+        //                currentRoom.OnEnter();
+        //            }
+        //            break;
+        //        case "South":
+        //            if (currentRoom.SouthRoom == null)
+        //            {
+        //                Console.WriteLine("You can't go down!");
+        //                MoveRooms(currentRoom);
+        //            }
+        //            else
+        //            {
+        //                currentRoom.OnExit();
+        //                currentRoom = currentRoom.SouthRoom;
+        //                currentRoom.OnEnter();
+        //            }
+        //            break;
+        //        case "West":
+        //            if (currentRoom.WestRoom == null)
+        //            {
+        //                Console.WriteLine("You can't go to the left!");
+        //                MoveRooms(currentRoom);
+        //            }
+        //            else
+        //            {
+        //                currentRoom.OnExit();
+        //                currentRoom = currentRoom.WestRoom;
+        //                currentRoom.OnEnter();
+        //            }
+        //            break;
+        //        case "East":
+        //            if (currentRoom.EastRoom == null)
+        //            {
+        //                Console.WriteLine("You can't go to the right!");
+        //                MoveRooms(currentRoom);
+        //            }
+        //            else
+        //            {
+        //                currentRoom.OnExit();
+        //                currentRoom = currentRoom.EastRoom;
+        //                currentRoom.OnEnter();
+        //            }
+        //            break;
+        //        default:
+        //            Console.WriteLine("Thats not a valid option, please try again");
+        //            MoveRooms(currentRoom);
+        //            break;
+        //    }
+        //}
+
+        internal Room MoveDecisionLoop(Room currentRoom, Player user)
+        {
+            bool validInput;
+            bool isRoomInDirection;
+            string choice;
+            do
+            {
+                // Input validation loop
+                do
+                {
+                    choice = GetDirection(currentRoom);
+                    validInput = choice != "Error";
+                }
+                while (validInput == false);
+
+                if (choice == "Cancel") return currentRoom;
+
+                // Is there a room in that direction?
+                isRoomInDirection = IsRoomInDirection(currentRoom, choice);
+                if (isRoomInDirection == false)
+                    Console.WriteLine("No room that way!");
+            }
+            while (validInput == false);
+
+            currentRoom.OnExit(); // 1,1
+            currentRoom = MovePlayer(currentRoom, choice);
+            currentRoom.OnEnter(user);
+            return currentRoom;
+        }
+
+        public string GetDirection(Room currentRoom)
         {
             Console.WriteLine("Where do you want to go?\n");
             Console.WriteLine("North, South, West or East?\n");
-            string roomSelect = Console.ReadLine();
-            if (roomSelect == "North")
+
+            string decision = Console.ReadLine();
+            switch (decision)
             {
-                if (currentRoom.NorthRoom == null)
-                {
-                    Console.WriteLine("You can't go up!");
-                    MoveRooms(currentRoom);
-                }
-                else
-                {
-                    currentRoom.OnExit();
-                    currentRoom = currentRoom.NorthRoom;
-                    currentRoom.OnEnter();
-                }
-            }
-            else if (roomSelect == "South")
-            {
-                if (currentRoom.SouthRoom == null)
-                {
-                    Console.WriteLine("You can't go down!");
-                    MoveRooms(currentRoom);
-                }
-                else
-                {
-                    currentRoom.OnExit();
-                    currentRoom = currentRoom.SouthRoom;
-                    currentRoom.OnEnter();
-                }
-            }
-            else if (roomSelect == "West")
-            {
-                if (currentRoom.WestRoom == null)
-                {
-                    Console.WriteLine("You can't go to the left!");
-                    MoveRooms(currentRoom);
-                }
-                else
-                {
-                    currentRoom.OnExit();
-                    currentRoom = currentRoom.WestRoom;
-                    currentRoom.OnEnter();
-                }
-            }
-            else if (roomSelect == "East")
-            {
-                if (currentRoom.EastRoom == null)
-                {
-                    Console.WriteLine("You can't go to the right!");
-                    MoveRooms(currentRoom);
-                }
-                else
-                {
-                    currentRoom.OnExit();
-                    currentRoom = currentRoom.EastRoom;
-                    currentRoom.OnEnter();
-                }
-            }
-            else
-            {
-                Console.WriteLine("Thats not a valid option, please try again");
-                MoveRooms(currentRoom);
+                case "North":
+                case "South":
+                case "East":
+                case "West":
+                case "Cancel":
+                    return decision;
+                default:
+                    return "Error";
             }
         }
+
+        public bool IsRoomInDirection(Room currentRoom, string direction)
+        {
+            switch (direction)
+            {
+                case "North":
+                    return currentRoom.NorthRoom != null;
+                case "South":
+                    return currentRoom.SouthRoom != null;
+                case "East":
+                    return currentRoom.EastRoom != null;
+                case "West":
+                    return currentRoom.WestRoom != null;
+                default:
+                    Console.WriteLine("IsRoomInDirection: Unknown direction! " + direction);
+                    break;
+            }
+            return false;
+        }
+
+        public Room? MovePlayer(Room currentRoom, string direction)
+        {
+            switch (direction)
+            {
+                case "North":
+                    return currentRoom.NorthRoom;
+                case "South":
+                    return currentRoom.SouthRoom;
+                case "East":
+                    return currentRoom.EastRoom;
+                case "West":
+                    return currentRoom.WestRoom;
+                default:
+                    Console.WriteLine("MovePlayer: Unknown direction! " + direction);
+                    return null;
+            }
+        }
+
         public void Move()
         {
             Console.WriteLine("You try to move but fail");

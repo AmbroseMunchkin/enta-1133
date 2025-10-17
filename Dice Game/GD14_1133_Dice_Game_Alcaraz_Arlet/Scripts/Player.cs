@@ -14,6 +14,17 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
         //class level variables that persist
         public Dictionary<string, int> availableDice = new Dictionary<string, int>();
 
+        // Stuff to reset when replaying:
+        public int NumberOfRoomsVisited = 0;
+        public void Reset()
+        {
+            NumberOfRoomsVisited = 0;
+            // TODO
+            // Health
+            // Inventory
+
+        }
+
         public void Initialize()
         {
             //do initialization stuff over here
