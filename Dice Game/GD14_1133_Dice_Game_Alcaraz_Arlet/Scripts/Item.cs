@@ -8,6 +8,6 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
 {
     internal abstract class Item
     {
-
+        internal abstract int Roll();
     }
 }

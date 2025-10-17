@@ -13,7 +13,8 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
         
 
         //class level variables that persist
-        public Dictionary<string, int> availableItems = new Dictionary<string, int>();
+        //public Dictionary<string, int> availableItems = new Dictionary<string, int>();
+        private List<Item> inventory = new List<Item>();
 
         // Stuff to reset when replaying:
         public int NumberOfRoomsVisited = 0;
@@ -73,12 +74,14 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
         }
         public void Inventory()
         {
-            string inventory = username + " you have the following items in your inventory: ";
-            foreach (KeyValuePair<string, int> dice in availableItems)
-            {
-                inventory += " " + dice.Key + ",";
-            }
-            Console.WriteLine(inventory);
+            Console.WriteLine("You have the following items in your inventory:\n");
+
+            //string inventory = username + " you have the following items in your inventory: ";
+            //foreach (KeyValuePair<string, int> dice in availableItems)
+            //{
+            //    inventory += " " + dice.Key + ",";
+            //}
+            //Console.WriteLine(inventory);
         }
     }
 }
