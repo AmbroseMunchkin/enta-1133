@@ -8,16 +8,17 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
 {
     internal abstract class Weapon : Item
     {
-        internal abstract void Hit();
+        internal abstract int Hit();
         public class Sword : Weapon
         {
             int minRoll = 0;
             int maxRoll = 6;
             int damage = 0;
-            internal override void Hit()
+            internal override int Hit()
             {
-                Roll();
+                damage = Roll();
                 Console.WriteLine("You hit the moster with the sword, it makes " + damage + " damage!");
+                return damage;
             }
             internal override int Roll()
             {
@@ -31,10 +32,11 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
             int minRoll = 0;
             int maxRoll = 8;
             int damage = 0;
-            internal override void Hit()
+            internal override int Hit()
             {
-                Roll();
+                damage = Roll();
                 Console.WriteLine("You hit the moster with the sword, it makes " + damage + " damage!");
+                return damage;
             }
             internal override int Roll()
             {

@@ -9,7 +9,6 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
 {
     internal class TreasureRoom : Room
     {
-        Player player = new Player();
         internal override void SearchRoom()
         {
             Console.WriteLine("You see in the middle a chest, you open it and get:\n"); //Player searches the room and gets an item
@@ -18,15 +17,16 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
             switch (chestResult)
             {
                 case 1:
-                    player.availableItems.Add("Small potion (D4)", 4);
+              
+                    GameManager.player.inventory.Add(new Consumable.SmallPotion { Name = "Small Potion" });
                     Console.WriteLine("A small potion (D4)!!!");
                     break;
                 case 2:
-                    player.availableItems.Add("Normal potion (D6)", 6);
+                    GameManager.player.inventory.Add(new Consumable.NormalPotion { Name = "Normal Potion" });
                     Console.WriteLine("A normal potion (D6)!!!");
                     break;
                 case 3:
-                    player.availableItems.Add("Large potion (D8)", 8);
+                    GameManager.player.inventory.Add(new Consumable.LargePotion { Name = "Large Potion" });
                     Console.WriteLine("A large potion (D8)!!!");
                     break;
                 default:

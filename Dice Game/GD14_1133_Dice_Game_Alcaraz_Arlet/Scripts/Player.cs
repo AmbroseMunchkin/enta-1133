@@ -14,7 +14,7 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
 
         //class level variables that persist
         //public Dictionary<string, int> availableItems = new Dictionary<string, int>();
-        private List<Item> inventory = new List<Item>();
+        public List<Item> inventory = new List<Item>();
 
         // Stuff to reset when replaying:
         public int NumberOfRoomsVisited = 0;
@@ -22,7 +22,7 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
         public void Reset()
         {
             NumberOfRoomsVisited = 0;
-            availableItems.Clear();
+            inventory.Clear();
             Initialize();
             HP = 30;
         }
@@ -30,8 +30,8 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
         public void Initialize()
         {
             //do initialization stuff over here
-            availableItems.Add("Sword", 6);
-            availableItems.Add("Maze", 8);
+            inventory.Add(new Weapon.Sword { Name = "Sword" });
+            inventory.Add(new Weapon.Maze { Name = "Maze" });
         }
         public string User()
         {
@@ -42,46 +42,14 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
             Console.WriteLine("Well " + username + " my name is Arlet Alcaraz and I'll be your guide, let me teach you how things work here~"); //Added this here because i didnt knew how to call the username in the game manager
             return username;
         }
-        public string PlayerChoice()
-        {
-            //Tell player inventory
-            string inventory = username + " you have the following weapons in your inventory: ";
-            foreach (KeyValuePair<string, int> dice in availableItems)
-            {
-                inventory += " " + dice.Key + ",";
-            }
-            Console.WriteLine(inventory);
-            string playerInput;
-            //Validate input
-            do
-            {
-                //Ask player input
-                Console.WriteLine("What weapon do you want to use?\n");
-                //ReadLine of the option
-                playerInput = Console.ReadLine();
-            } while (!availableItems.TryGetValue(playerInput, out int choice));
-
-            //Return Choice
-
-            return playerInput;
-        }
-        public int CpuDamage()
-        {
-            Random rand = new Random();
-            int result = rand.Next(0, 9);
-            return result; 
-            //return availableItems.Keys.ToArray()[rand.Next(0,availableItems.Count)]; //The array looks like: D4, D6, D8, the random will trow a string with the choice
-        }
+        
         public void Inventory()
         {
-            Console.WriteLine("You have the following items in your inventory:\n");
-
-            //string inventory = username + " you have the following items in your inventory: ";
-            //foreach (KeyValuePair<string, int> dice in availableItems)
-            //{
-            //    inventory += " " + dice.Key + ",";
-            //}
-            //Console.WriteLine(inventory);
+            Console.WriteLine( username + " you have the following items in your inventory:\n");
+            foreach (var item in inventory)
+            {
+                Console.WriteLine($"{item.Name}");
+            }
         }
     }
 }

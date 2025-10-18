@@ -9,14 +9,14 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
 {
     internal class GameManager
     {
-        private List<Player> turnOrder = new List<Player>();  //Declared the players first so i can access it in every function
 
-        private Player player = new Player();
+        public static Player player = new Player();
 
-        DieRoller roller = new DieRoller();
         DateOnly today = DateOnly.FromDateTime(DateTime.Now);
        
         private Map Map = new Map();
+        int x;
+        int y;
 
         private Room playerCurrentRoom;
         private Room playerLastRoom;
@@ -35,8 +35,7 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
             // Get Player Name
             player.User(); //Fixed how the intro is since it was rude to start by asking the player name
             GameExplanation();
-            // TODO Ask if ready to play * slightly different message than "play again"
-            // TODO put into a function
+
             Console.WriteLine("Do you want to wander the world? Type \"yes\" to continue");
             gameIsRunning = Console.ReadLine() == "yes";
 
@@ -99,6 +98,10 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
                 // 4 Test fight
                 // these will have to resolve however they need to
                 // then the game should should come back to this point
+                if (player.NumberOfRoomsVisited == 9)
+                {
+                    gameIsRunning = false;
+                }
 
                 // If the player dies during a combat, then gameIsRunning will be false, and we will not loop.
             }
@@ -142,22 +145,22 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
         }
 
         
-        private int TakingTurn(Player player, string die) //Here is where the magic happens with the rolles, the dieroller gets the result based on the player or cpu input
-        {
-            int numFaces = player.availableItems[die];
-            int rollerResult = 0;
-            string singularResults = player.username + " grabs the " + die + " and rolls it 3 times, the results are:";
+        //private int TakingTurn(Player player, string die) //Here is where the magic happens with the rolles, the dieroller gets the result based on the player or cpu input
+        //{
+        //    int numFaces = player.availableItems[die];
+        //    int rollerResult = 0;
+        //    string singularResults = player.username + " grabs the " + die + " and rolls it 3 times, the results are:";
 
-            for (int i = 0; i < 3; i++)
-            {
-                int thisRolle = roller.RollDice(numFaces);
-                rollerResult += thisRolle;
-                singularResults += " " + thisRolle + ",";
-            }
-            Console.WriteLine(singularResults);
-            player.availableItems.Remove(die);
-            return rollerResult;
-        }
+        //    for (int i = 0; i < 3; i++)
+        //    {
+        //        int thisRolle = roller.RollDice(numFaces);
+        //        rollerResult += thisRolle;
+        //        singularResults += " " + thisRolle + ",";
+        //    }
+        //    Console.WriteLine(singularResults);
+        //    player.availableItems.Remove(die);
+        //    return rollerResult;
+        //}
         //private void RoundLoop() //Tried to make it as clean as i could
         //{
         //    int cpuRollerResults = 0;
