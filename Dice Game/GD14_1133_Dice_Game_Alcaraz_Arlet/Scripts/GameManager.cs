@@ -25,7 +25,7 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
         private const int MapX = 3;
         private const int MapY = 3;
 
-        private bool gameIsRunning = false;
+        public static bool gameIsRunning = false;
 
         public void ProgramStart()
         {
@@ -98,10 +98,7 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
                 // 4 Test fight
                 // these will have to resolve however they need to
                 // then the game should should come back to this point
-                if (player.NumberOfRoomsVisited == 9)
-                {
-                    gameIsRunning = false;
-                }
+                
 
                 // If the player dies during a combat, then gameIsRunning will be false, and we will not loop.
             }
@@ -143,78 +140,6 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
             Console.WriteLine("You will start with a sword and a maze, but you can find potion in the chests, those will be helpful~\n");
             Console.WriteLine($"Be aware " + player.username + " that once a potion is used it will disappear never to be seen again.\n");
         }
-
-        
-        //private int TakingTurn(Player player, string die) //Here is where the magic happens with the rolles, the dieroller gets the result based on the player or cpu input
-        //{
-        //    int numFaces = player.availableItems[die];
-        //    int rollerResult = 0;
-        //    string singularResults = player.username + " grabs the " + die + " and rolls it 3 times, the results are:";
-
-        //    for (int i = 0; i < 3; i++)
-        //    {
-        //        int thisRolle = roller.RollDice(numFaces);
-        //        rollerResult += thisRolle;
-        //        singularResults += " " + thisRolle + ",";
-        //    }
-        //    Console.WriteLine(singularResults);
-        //    player.availableItems.Remove(die);
-        //    return rollerResult;
-        //}
-        //private void RoundLoop() //Tried to make it as clean as i could
-        //{
-        //    int cpuRollerResults = 0;
-        //    int playerRollerResult = 0;
-        //    while (turnOrder[0].availableItems.Count > 0)
-        //    {
-        //        for (int i = 0; i < turnOrder.Count; i++)  //This only happens twice, so its first turn and second turn
-        //        {
-        //            Player player = turnOrder[i];
-        //            int rollerResults;
-        //            string playerChoice;
-        //            if (player == cpu)
-        //            {
-        //                playerChoice = player.CPUChoice();
-        //                rollerResults = TakingTurn(player, playerChoice);
-        //                cpuRollerResults = rollerResults;
-        //            }
-        //            else
-        //            {
-        //                playerChoice = player.PlayerChoice();
-        //                rollerResults = TakingTurn(player, playerChoice);
-        //                playerRollerResult = rollerResults;
-        //            }
-        //        }
-        //        Console.WriteLine("The final sum is:");
-        //        Console.WriteLine(player.username + "--> " + playerRollerResult);
-        //        Console.WriteLine(cpu.username + "--> " + cpuRollerResults);
-        //        Console.WriteLine();
-        //        if (cpuRollerResults > playerRollerResult)
-        //        {
-        //            Console.WriteLine(cpu.username + " wins a point!");
-        //            cpuscore++;
-        //        }
-        //        else
-        //        {
-        //            Console.WriteLine(player.username + " wins a point!");
-        //            playerscore++;
-        //        }
-        //        Console.WriteLine("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-\n");
-        //    }
-        //    Console.WriteLine("And the winner is:\n");
-        //    if (cpuscore > playerscore)
-        //    {
-        //        Console.WriteLine(cpu.username + "!!!\n");
-        //    }
-        //    else
-        //    {
-        //        Console.WriteLine(player.username + "!!!\n");
-        //    }
-        //    Console.WriteLine("The final score is:\n");
-        //    Console.WriteLine(cpu.username + "--> " + cpuscore);
-        //    Console.WriteLine();
-        //    Console.WriteLine(player.username + "--> " + playerscore);
-        //}
 
         public string GetPlayerChoiceForCurrentStep()
         {

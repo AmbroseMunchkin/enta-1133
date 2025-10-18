@@ -9,10 +9,6 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
 {
     internal class CombatRoom : Room
     {
-        private List<Player> turnOrder = new List<Player>();
-        private Weapon.Sword sword;
-        private Weapon.Maze maze;
-        Monster cpu;
 
         internal override void SearchRoom()
         {
@@ -26,10 +22,9 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
         internal override void OnEnter(Player user)
         {
             base.OnEnter(user);
-            // Print a message about entering the new room
-            // UNIQUE: Combat begins
-            Console.WriteLine("A big scary monster attacks you!");
+
             CombatStarts();
+            
             // TODO Start the combat
 
         }
@@ -42,81 +37,11 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
 
         public void CombatStarts()
         {
-            
+
             Console.WriteLine("You see the monster in front of you, staring at your soul before attacking you!\n"); //Here is where the game starts again
-            //turnOrder.Add(Monster.cpu);
-            turnOrder.Add(cpu);
-            turnOrder.Add(GameManager.player);
+
             CombatLoop();
-            //while (turnOrder[0].HP > 0)
-            //{
-            //    for (int i = 0; i < turnOrder.Count; i++)  //This only happens twice, so its first turn and second turn
-            //    {
-            //        Player player = turnOrder[i];
-            //        int rollerResults;
-            //        string playerChoice;
-            //        if (player == cpu)
-            //        {
-            //            playerChoice = player.CPUChoice();
-            //            rollerResults = TakingTurn(player, playerChoice);
-            //            cpuDamage = rollerResults;
-            //            Console.WriteLine("The monster grabs his maze and hits you, dealing:" + cpuDamage + "\n");
-            //        }
-            //        else
-            //        {
-            //            playerChoice = player.PlayerChoice();
-            //            rollerResults = TakingTurn(player, playerChoice);
-            //            playerDamage = rollerResults;
-            //            Console.WriteLine("You grab your weapon and hit the monster, dealing:" + playerDamage + "\n");
-            //        }
-            //    }
-            //}
-            //Round();
-
-
         }
-        //private int TakingTurn(Player player, string die) //Here is where the magic happens with the rolles, the dieroller gets the result based on the player or cpu input
-        //{
-        //    int numFaces = player.inventory[item];
-        //    int rollerResult = 0;
-        //    string singularResults = player.username + " grabs the " + die + " and rolls it 3 times, the results are:";
-
-        //    for (int i = 0; i < 3; i++)
-        //    {
-        //        int thisRolle = dieRoller.RollDice(numFaces);
-        //        rollerResult += thisRolle;
-        //        singularResults += " " + thisRolle + ",";
-        //    }
-        //    Console.WriteLine(singularResults);
-        //    player.availableItems.Remove(die);
-        //    return rollerResult;
-        //}
-        //private void Round()
-        //{
-        //    int cpuDamage = 0;
-        //    int playerDamage = 0;
-        //    while (turnOrder[0].HP > 0)
-        //    {
-        //        for (int i = 0; i < turnOrder.Count; i++)  //This only happens twice, so its first turn and second turn
-        //        {
-        //            Player player = turnOrder[i];
-        //            int rollerResults;
-        //            string playerChoice;
-        //            if (player == cpu)
-        //            {
-        //                cpuDamage = player.CpuDamage();
-        //                Console.WriteLine("The monster grabs his maze and hits you, dealing:" + cpuDamage + "\n");
-        //            }
-        //            else
-        //            {
-        //                playerChoice = player.PlayerChoice();
-        //                rollerResults = TakingTurn(player, playerChoice);
-        //                playerDamage = rollerResults;
-        //                Console.WriteLine("You grab your weapon and hit the monster, dealing:" + playerDamage + "\n");
-        //            }
-        //        }
-        //    }
-        //}
         private string PlayerChoice()
         {
             bool valid = false;
@@ -162,24 +87,33 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
         }
         private void ResolveCombatChoice(string playerInput)
         {
+            Consumable.SmallPotion smallPotion = new Consumable.SmallPotion();
+            Consumable.NormalPotion normalPotion = new Consumable.NormalPotion();
+            Consumable.LargePotion largePotion = new Consumable.LargePotion();
+            Weapon.Sword sword = new Weapon.Sword();
+            Weapon.Maze maze = new Weapon.Maze();
             switch (playerInput)
             {
-                case "Sword":
-                    Console.WriteLine("Sword hit, the monster dies with one hit");
-                    //sword.Hit();
+                
+                case "Sword":      //Activates the use of the option
+                    sword.Used();
+                    GameManager.player.inventory.Remove(sword);
                     break;
                 case "Maze":
-                    Console.WriteLine("Maze hit, the monster dies with one hit");
-                    //maze.Hit();
+                    maze.Used();
+                    GameManager.player.inventory.Remove(maze);
                     break;
                 case "Small Potion":
-                    Console.WriteLine("You use the small potion");
+                    smallPotion.Used();
+                    GameManager.player.inventory.Remove(smallPotion);
                     break;
                 case "Normal Potion":
-                    Console.WriteLine("You use the normal potion");
+                    normalPotion.Used();
+                    GameManager.player.inventory.Remove(normalPotion);
                     break;
                 case "Large Potion":
-                    Console.WriteLine("You use the large potion");
+                    normalPotion.Used();
+                    GameManager.player.inventory.Remove(largePotion);
                     break;
                 default:
                     Console.WriteLine("I couldn't resolve the input of " + playerInput);
@@ -191,6 +125,18 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
             string playerInput;
             playerInput = PlayerChoice();
             ResolveCombatChoice(playerInput);
+            Console.WriteLine();
+            Console.WriteLine("The monster tries to hit you but fails");
+            playerInput = PlayerChoice();
+            ResolveCombatChoice(playerInput);
+            Console.WriteLine("The monster tries once more to hit you but fails, falling to the floor");
+            playerInput = PlayerChoice();
+            ResolveCombatChoice(playerInput);
+            Console.WriteLine("The monster tries one last time, accidentally hitting himself");
+            playerInput = PlayerChoice();
+            ResolveCombatChoice(playerInput);
+            Console.WriteLine();
+            Console.WriteLine("You defeat the monster!");
         }
     }
 }

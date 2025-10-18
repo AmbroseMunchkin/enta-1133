@@ -9,17 +9,17 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
 {
     internal abstract class Consumable : Item
     {
-        internal abstract void Consumed();
 
-        public class SmallPotion : Consumable
+        public class SmallPotion : Consumable //    All the potions are set here
         {
             int minRoll = 0;
             int maxRoll = 4;
             int hpRestored = 0;
-            internal override void Consumed()
+            internal override int Used()
             {
-                Roll();
+                hpRestored = Roll();
                 Console.WriteLine("You take the small potion and drink it in one sip, it restores " + hpRestored + " health!");
+                return hpRestored;
             }
             internal override int Roll()
             {
@@ -33,10 +33,11 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
             int minRoll = 0;
             int maxRoll = 6;
             int hpRestored = 0;
-            internal override void Consumed()
+            internal override int Used()
             {
-                Roll();
+                hpRestored = Roll();
                 Console.WriteLine("You take the normal potion and you drink it in 2 sips, it restores " + hpRestored + " health!");
+                return hpRestored;
             }
             internal override int Roll()
             {
@@ -50,10 +51,11 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
             int minRoll = 0;
             int maxRoll = 8;
             int hpRestored = 0;
-            internal override void Consumed()
+            internal override int Used()
             {
-                Roll();
+                hpRestored = Roll();
                 Console.WriteLine("You take the large potion and drink it after a couple sips, it restores " + hpRestored + " health!");
+                return hpRestored;
             }
             internal override int Roll()
             {

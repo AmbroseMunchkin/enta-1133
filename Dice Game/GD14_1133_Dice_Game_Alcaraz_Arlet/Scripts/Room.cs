@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,7 +11,7 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
     {
         internal Room? NorthRoom, SouthRoom, WestRoom, EastRoom;
 
-        private bool visited = false;
+        public bool visited = false;
 
         internal virtual void OnEnter(Player user)
         {
@@ -28,6 +29,11 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
             {
                 visited = true;
                 user.NumberOfRoomsVisited++;
+            }
+            if (GameManager.player.NumberOfRoomsVisited == 9)
+            {
+                Console.WriteLine("You realize all the rooms have been explored, your soul slowly goes back to your body\nYou win this time");
+                GameManager.gameIsRunning = false;
             }
         }
     }

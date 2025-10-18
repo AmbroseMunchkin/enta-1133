@@ -15,7 +15,7 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
             Random chestSpin = new Random();
             int chestResult = chestSpin.Next(0, 4);
             switch (chestResult)
-            {
+            {               //Gives the player an item
                 case 1:
               
                     GameManager.player.inventory.Add(new Consumable.SmallPotion { Name = "Small Potion" });
@@ -44,7 +44,6 @@ namespace GD14_1133_Dice_Game_Alcaraz_Arlet.Scripts
         {
             base.OnEnter(user);
             // Print a message about entering the new room
-            // UNIQUE: Part of the message should mention the chest
             Console.WriteLine("You see in the middle a chest");
             // Does not auto search the chest
         }
